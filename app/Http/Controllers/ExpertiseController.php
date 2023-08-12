@@ -10,6 +10,8 @@ class ExpertiseController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        return ExpertiseResource::collection(Expertise::all());
+        $expertises = Expertise::query()->orderByDesc('start_date')->get();
+
+        return ExpertiseResource::collection($expertises);
     }
 }
