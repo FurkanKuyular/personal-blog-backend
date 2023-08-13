@@ -10,4 +10,14 @@ class Post extends Model
     use HasFactory;
 
     protected $table = 'posts';
+
+    protected $fillable = [
+        'title',
+        'body',
+        'post_link',
+        'post_image_html',
+        'user_id',
+        'post_type_id',
+        'is_active',
+    ];
 }
