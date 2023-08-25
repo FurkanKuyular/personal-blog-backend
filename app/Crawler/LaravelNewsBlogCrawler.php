@@ -4,6 +4,7 @@ namespace App\Crawler;
 
 use App\Enum\PostType;
 use App\Enum\User;
+use App\Events\Post\PostCreated;
 use App\Models\Post;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
@@ -32,7 +33,7 @@ class LaravelNewsBlogCrawler extends CrawlObserver
             });
 
         foreach ($blogs as $blog) {
-            Post::updateOrCreate(
+            $post = Post::query()->updateOrCreate(
                 [
                     'title' => self::removeNbsp($blog['title']),
                     'post_link' => $blog['post_link'],
@@ -45,6 +46,10 @@ class LaravelNewsBlogCrawler extends CrawlObserver
                     'is_active' => true,
                 ],
             );
+
+            if ($post->wasRecentlyCreated) {
+                PostCreated::dispatch($post);
+            }
         }
 
         exit();
@@ -61,13 +66,24 @@ class LaravelNewsBlogCrawler extends CrawlObserver
             ->filter('a')
             ->attr('href');
     }
-    private function getPictureHtml(): string
+    private function getPictureHtml(): ?string
     {
-        return $this->node
+        $this->node
             ->filter('a')
             ->filter('div.block')
             ->filter('picture')
-            ->html();
+            ->filter('source')
+            ->getNode(0)
+            ->setAttribute('srcset',
+                $this->node
+                    ->filter('a')
+                    ->filter('div.block')
+                    ->filter('picture')
+                    ->filter('source')
+                    ->attr('data-srcset')
+            );
+
+        return $this->node->filter('a div.block picture')->html();
     }
 
     private function getTitle(): string
