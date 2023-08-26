@@ -35,7 +35,7 @@ return [
         [
             'user_id' => 1,
             'title' => 'ONT Information Technology Trade Inc., Istanbul',
-            'description' => 'Laravel Framework, Request Classes Response Resources, ValueObjects Events, Listeners, Observers, Jobs Queues ETC. Laravel Dumps Nginx, Mysql, Redis, CRM and CMS monolith projects, Javascript ‐ Jquery, Datatables Sentry, IDE:And Programs PhpStorm, DataGrip, Postman, Teams, Discord,',
+            'description' => '',
             'start_date' => Carbon::create(2022, 10),
             'end_date' => null,
         ],

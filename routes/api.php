@@ -1,10 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ExpertiseController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\ReferenceController;
 use App\Http\Controllers\SkillController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +25,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::resource('skills', SkillController::class)->only('index');
 Route::resource('expertises', ExpertiseController::class)->only('index');
-Route::resource('references', ReferenceController::class)->only('index');
-Route::resource('posts', PostController::class)->only('index');
-Route::resource('contacts', ContactController::class)->only('store');
