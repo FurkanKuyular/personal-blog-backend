@@ -12,4 +12,9 @@ class Message extends Model
     use Notifiable;
 
     protected $table = 'messages';
+
+    public function routeNotificationFor($driver, $notification = null): string
+    {
+        return env('MAIL_USERNAME');
+    }
 }

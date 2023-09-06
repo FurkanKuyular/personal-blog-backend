@@ -30,4 +30,5 @@ Route::resource('skills', SkillController::class)->only('index');
 Route::resource('expertises', ExpertiseController::class)->only('index');
 Route::resource('references', ReferenceController::class)->only('index');
 Route::resource('posts', PostController::class)->only('index');
-Route::resource('contacts', ContactController::class)->only('store');
+Route::resource('contacts', ContactController::class)->only('store')
+    ->middleware('throttle:contacts');
