@@ -19,7 +19,7 @@ class MessageNotification extends Notification
     {
         return (new MailMessage)
             ->subject('You have a message from personal blog')
-            ->greeting('Hello Boss')
+            ->greeting(sprintf('Hello Boss you have a message from: %s', $notifiable->email))
             ->line($notifiable->message)
             ->salutation($notifiable->name);
     }

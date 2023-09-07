@@ -27,7 +27,7 @@ class ContactController extends Controller
         }
 
         return response()->json([
-            'message' => 'Message successfully created',
+            'message' => 'Message successfully sent!',
         ], Response::HTTP_CREATED);
     }
 }

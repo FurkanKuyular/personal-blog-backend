@@ -33,7 +33,7 @@ class LaravelNewsBlogCrawler extends CrawlObserver
             });
 
         foreach ($blogs as $blog) {
-            $post = Post::query()->updateOrCreate(
+            $post = Post::query()->firstOrCreate(
                 [
                     'title' => self::removeNbsp($blog['title']),
                     'post_link' => $blog['post_link'],
