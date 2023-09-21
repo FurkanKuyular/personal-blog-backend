@@ -97,14 +97,19 @@ class LaravelNewsBlogCrawler extends CrawlObserver
             ->innerText();
     }
 
-    private function getSummaryText(): string
+    private function getSummaryText(): ?string
     {
-        return $this->node
-            ->filter('a')
-            ->filter('div.mt-4')
-            ->filter('div.flex.flex-col')
-            ->filter('p.mt-2')
-            ->text();
+        try {
+            return $this->node
+                ->filter('a')
+                ->filter('div.mt-4')
+                ->filter('div.flex.flex-col')
+                ->filter('p.mt-2')
+                ->text();
+        } catch (\Exception $e) {
+        }
+
+        return null;
     }
 
     private static function removeNbsp(string $text): string
