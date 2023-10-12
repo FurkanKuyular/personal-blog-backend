@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('body')->nullable();
             $table->string('post_link')->nullable();
             $table->text('post_image_html')->nullable();
+            $table->string('post_image_url')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('post_type_id');
