@@ -17,6 +17,7 @@ class Post extends Model
         'body',
         'post_link',
         'post_image_html',
+        'post_image_url',
         'user_id',
         'post_type_id',
         'is_active',

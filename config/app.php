@@ -186,4 +186,5 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    'laravel_news_feed_url' => env('LARAVEL_NEWS_BLOG_FEED_URL'),
 ];

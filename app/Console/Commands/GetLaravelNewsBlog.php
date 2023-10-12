@@ -2,9 +2,13 @@
 
 namespace App\Console\Commands;
 
-use App\Crawler\LaravelNewsBlogCrawler;
+use App\Enum\PostType;
+use App\Enum\User;
+use App\Events\Post\PostCreated;
+use App\Models\Post;
 use Illuminate\Console\Command;
-use Spatie\Crawler\Crawler;
+use Illuminate\Support\Facades\Http;
+use Symfony\Component\Console\Command\Command as CommandAlias;
 
 class GetLaravelNewsBlog extends Command
 {
@@ -19,9 +23,37 @@ class GetLaravelNewsBlog extends Command
 
     public function handle(): bool
     {
-        Crawler::create()
+        $response = Http::laravelNewsFeed()->get('/feed/json');
+
+        if (!$response->ok()) {
+            return CommandAlias::FAILURE;
+        }
+
+        $blogs = $response->json()['items']['items'];
+
+        foreach ($blogs as $blog) {
+            $post = Post::query()->firstOrCreate(
+                [
+                    'title' => $blog['title'],
+                    'post_link' => $blog['url'],
+                ],
+                [
+                    'body' => strip_tags($blog['excerpt']),
+                    'post_image_url' => $blog['image'],
+                    'user_id' => User::ADMIN_USER->value,
+                    'post_type_id' => PostType::LARAVEL_NEWS->value,
+                    'is_active' => true,
+                ],
+            );
+
+            if ($post->wasRecentlyCreated) {
+                PostCreated::dispatch($post);
+            }
+        }
+
+        /*Crawler::create()
             ->setCrawlObserver(new LaravelNewsBlogCrawler())
-            ->startCrawling('https://laravel-news.com/blog');
+            ->startCrawling('https://laravel-news.com/blog');*/
 
         return self::SUCCESS;
     }

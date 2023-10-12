@@ -19,6 +19,7 @@ class PostResource extends JsonResource
             'body' => $this->resource->body,
             'post_link' => $this->resource->post_link,
             'post_image_html' => $this->resource->post_image_html,
+            'post_image_url' => $this->resource->post_image_url,
             'is_active' => $this->resource->is_active,
             'post_type' => [
                 'id' => $this->resource->postType->id,
